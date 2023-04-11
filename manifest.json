@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Word Replacer",
+  "version": "1.0",
+  "description": "Automatically replaces certain words with others.",
+  "icons": {
+    "48": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content_script.js"]
+    }
+  ],
+  "permissions": ["activeTab"],
+  "options_page": "settings.html",
+  "options_ui": {
+    "page": "settings.html",
+    "chrome_style": true
+  }
+}
