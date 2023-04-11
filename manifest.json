@@ -12,7 +12,7 @@
       "js": ["content_script.js"]
     }
   ],
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "options_page": "settings.html",
   "options_ui": {
     "page": "settings.html",

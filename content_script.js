@@ -64,22 +64,12 @@ function observeDOMChanges(wordReplacements) {
   return observer;
 }
 
-// Retrieve user-defined word replacements from browser storage
-chrome.storage.local.get({ wordReplacements: {} }, function(data) {
-  let wordReplacements = data.wordReplacements;
-
-  // Add event listener to update word replacements when they are changed by the user
-  chrome.storage.onChanged.addListener(function(changes, namespace) {
-    if (namespace === 'local' && changes.wordReplacements) {
-      wordReplacements = changes.wordReplacements.newValue;
-    }
-  });
-
+function initContentScript(wordReplacements) {
   // Add event listener to update the DOM when the page has finished loading
-  window.addEventListener('load', function() {
+  window.addEventListener("load", function () {
     // Call the walk function initially
     walk(document.body, wordReplacements);
-    
+
     // Set up an interval to call the walk function every 2 seconds (2000 ms)
     setInterval(() => {
       walk(document.body, wordReplacements);
@@ -88,4 +78,17 @@ chrome.storage.local.get({ wordReplacements: {} }, function(data) {
     // Observe DOM changes and apply word replacements to new nodes
     observeDOMChanges(wordReplacements);
   });
+
+  // Add event listener to update word replacements when they are changed by the user
+  chrome.storage.onChanged.addListener(function (changes, namespace) {
+    if (namespace === "local" && changes.wordReplacements) {
+      wordReplacements = changes.wordReplacements.newValue;
+    }
+  });
+}
+
+// Retrieve user-defined word replacements from browser storage
+chrome.storage.local.get({ wordReplacements: {} }, function (data) {
+  let wordReplacements = data.wordReplacements;
+  initContentScript(wordReplacements);
 });
